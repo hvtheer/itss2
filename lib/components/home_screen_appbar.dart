@@ -28,14 +28,14 @@ class HomeScreenAppbar extends StatelessWidget implements PreferredSizeWidget {
               Text(
                 "Xin chào",
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.w500),
               ),
               Text(
                 name??"Trần Ánh",
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 21,
                     color: Colors.white,
                     fontWeight: FontWeight.w500),
               ),
