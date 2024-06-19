@@ -3,47 +3,46 @@ import 'package:flutter/material.dart';
 
 class HomeScreenAppbar extends StatelessWidget implements PreferredSizeWidget {
   String? name;
-  HomeScreenAppbar({super.key,this.name});
+  HomeScreenAppbar({super.key, this.name});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.lightGreen[300],
-      title: Row(
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 25,
-            child: Image.network(
-              "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/300px-Manchester_United_FC_crest.svg.png",
-              fit: BoxFit.cover,
+        backgroundColor: Colors.lightGreen[300],
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 25,
+              child: Image.network(
+                "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/300px-Manchester_United_FC_crest.svg.png",
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Xin chào",
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500),
-              ),
-              Text(
-                name??"Trần Ánh",
-                style: TextStyle(
-                    fontSize: 21,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
-          )
-        ],
-      )
-    );
+            const SizedBox(
+              width: 15,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Xin chào",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  name ?? "Trần Ánh",
+                  style: const TextStyle(
+                      fontSize: 21,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            )
+          ],
+        ));
   }
 
   @override

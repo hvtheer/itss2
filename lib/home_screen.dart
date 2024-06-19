@@ -13,6 +13,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_screen.g.dart';
 
+const greenColor = Colors.green[400]
+const yellowColor = Colors.yellow[400]
+const redColor = Colors.red[400]
+const grayColor = Colors.grey
+
 @riverpod
 Future<List<ParkingZone>> getParkingZone(ref) async {
   final dio = ref.watch(dioProvider);
@@ -33,7 +38,7 @@ Future<List<ParkingZone>> getParkingZone(ref) async {
 }
 
 class ParkingZoneNotifier extends StateNotifier<AsyncValue<List<ParkingZone>>> {
-  ParkingZoneNotifier(this.ref) : super(AsyncValue.loading()) {
+  ParkingZoneNotifier(this.ref) : super(const AsyncValue.loading()) {
     _startTimer();
   }
 
@@ -50,7 +55,7 @@ class ParkingZoneNotifier extends StateNotifier<AsyncValue<List<ParkingZone>>> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       _fetchParkingZones();
     });
   }
@@ -70,7 +75,7 @@ final parkingZoneProvider =
 
 class HomeScreen extends ConsumerStatefulWidget {
   final String? name;
-  HomeScreen({super.key, this.name});
+  const HomeScreen({super.key, this.name});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -91,11 +96,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _showParkingModal(ParkingZone parking) {
-
     showDialog(
       context: context,
       builder: (context) {
-
         return AlertDialog(
           title: Column(
             children: [
@@ -106,7 +109,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: TextStyle(fontSize: 19, color: Colors.red)),
             ],
           ),
-          content: Container(
+          content: SizedBox(
             height: 50,
             child: Row(
               children: [
@@ -123,12 +126,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        parking.quantity != null
-                            ? "${parking.quantity.toString()} slot"
-                            : "123 slot",
-                        style: const TextStyle(fontSize: 17)),
-                    Text("${parking.frequency ?? 1} xe/phút",
-                        style: const TextStyle(fontSize: 17)),
+                      parking.quantity != null
+                          ? "${(parking.capacity! - parking.quantity!).toString()} chỗ"
+                          : "12 chỗ",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "${parking.frequency ?? 1} xe/phút",
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        if (parking.frequency != null &&
+                            parking.frequency! >= 15)
+                          const Icon(
+                            Icons.warning,
+                            color: Colors.orange,
+                          ),
+                      ],
+                    ),
                   ],
                 ),
               ],
@@ -139,7 +155,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Close', style: TextStyle(fontSize: 19)),
+              child: const Text('Close', style: TextStyle(fontSize: 19)),
             ),
           ],
         );
@@ -157,9 +173,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         data: (listParkzone) {
           return Container(
             child: SingleChildScrollView(
-              child: Column(
-                children: _buildListParkingZone(listParkzone),
-              ),
+              child: Column(children: [
+                Column(children: _buildListParkingZone(listParkzone)),
+                const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ColorIdentifier(
+                          color: greenColor, status: "Còn nhiều chỗ"),
+                      ColorIdentifier(color: yellowColor, status: "Còn ít chỗ"),
+                    ]),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ColorIdentifier(color: redColor, status: "Gần đầy"),
+                    ColorIdentifier(color: grayColor, status: "Đã đầy"),
+                  ],
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(
+                      Icons.warning,
+                      color: Colors.orange,
+                    ),
+                    Text('Đang tắc')
+                  ],
+                )
+              ]),
             ),
           );
         },
@@ -167,7 +207,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           print(error.toString());
           return Container();
         },
-        loading: () => Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: CircularProgressIndicator()),
+      ),
+    );
+  }
+}
+
+class ColorIdentifier extends StatelessWidget {
+  final String? status;
+  final Color? color;
+  const ColorIdentifier({this.status, this.color, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 150.0,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Container(
+              height: 30,
+              width: 30,
+              color: color?.withOpacity(0.8),
+            ),
+            const SizedBox(width: 20.0),
+            Expanded(child: Text(status!))
+          ],
+        ),
       ),
     );
   }
