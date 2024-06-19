@@ -13,10 +13,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_screen.g.dart';
 
-const greenColor = Colors.green[400]
-const yellowColor = Colors.yellow[400]
-const redColor = Colors.red[400]
-const grayColor = Colors.grey
+const greenColor = Colors.green;
+const yellowColor = Colors.yellow;
+const redColor = Colors.red;
+const grayColor = Colors.grey;
 
 @riverpod
 Future<List<ParkingZone>> getParkingZone(ref) async {
@@ -125,12 +125,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text( 
+                    Text(
                       parking.quantity != null
-                      ? (parking.quantity! >= parking.capacity!
-                          ? "Hết chỗ"
-                          : "${(parking.capacity! - parking.quantity!).toString()} chỗ")
-                      : "12 chỗ",
+                          ? (parking.quantity! >= parking.capacity!
+                              ? "Hết chỗ"
+                              : "${(parking.capacity! - parking.quantity!).toString()} chỗ")
+                          : "12 chỗ",
                       style: const TextStyle(fontSize: 16),
                     ),
                     Row(
