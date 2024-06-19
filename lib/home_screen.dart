@@ -125,10 +125,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    Text( 
                       parking.quantity != null
-                          ? "${(parking.capacity! - parking.quantity!).toString()} chỗ"
-                          : "12 chỗ",
+                      ? (parking.quantity! >= parking.capacity!
+                          ? "Hết chỗ"
+                          : "${(parking.capacity! - parking.quantity!).toString()} chỗ")
+                      : "12 chỗ",
                       style: const TextStyle(fontSize: 16),
                     ),
                     Row(

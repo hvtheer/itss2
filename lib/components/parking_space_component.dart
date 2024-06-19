@@ -48,7 +48,9 @@ class ParkingSpaceComponent extends StatelessWidget {
               children: [
                 Text(
                   parking.quantity != null
-                      ? "${(parking.capacity! - parking.quantity!).toString()} chỗ"
+                      ? (parking.quantity! >= parking.capacity!
+                          ? "Hết chỗ"
+                          : "${(parking.capacity! - parking.quantity!).toString()} chỗ")
                       : "12 chỗ",
                   style: const TextStyle(fontSize: 16),
                 ),
