@@ -113,12 +113,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             height: 50,
             child: Row(
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(parking.name ?? "Nhà xe D3-5",
-                        style: const TextStyle(fontSize: 17)),
-                    const Text("Lưu lượng xe", style: TextStyle(fontSize: 17)),
+                    Text("Còn", style: TextStyle(fontSize: 17)),
+                    Text("Lưu lượng xe", style: TextStyle(fontSize: 17)),
                   ],
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.2),
@@ -193,13 +192,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.warning,
-                      color: Colors.orange,
-                    ),
-                    Text('Đang tắc')
-                  ],
+                  children: [IconIdentifier()],
                 )
               ]),
             ),
@@ -235,6 +228,34 @@ class ColorIdentifier extends StatelessWidget {
             ),
             const SizedBox(width: 20.0),
             Expanded(child: Text(status!))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class IconIdentifier extends StatelessWidget {
+  const IconIdentifier({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 150.0,
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            SizedBox(
+              height: 30,
+              width: 30,
+              child: Icon(
+                Icons.warning,
+                color: Colors.orange,
+              ),
+            ),
+            SizedBox(width: 20.0),
+            Expanded(child: Text("Đang tắc"))
           ],
         ),
       ),
